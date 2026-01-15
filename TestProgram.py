@@ -1,35 +1,53 @@
 import random
 
-py_num = random.randint(1, 3)
+actions = ["paper", "rock", "scissors"]
 
-user_choice = input("Камень, ножницы, бумага > ").lower()
-
-commands = {
-    "камень": 1,
-    "ножницы": 2,
-    "бумага": 3
+win_conditions = {
+        "paper": "rock",
+        "scissor": "paper",
+        "rock": "scissors"
 }
 
-win_conditions_user = {
-    (1, 2): "Камень победил ножницы!",
-    (2, 3): "Ножницы победили бумагу!",
-    (3, 1): "Бумага победила камень!"
-}
+wins = 0
+loses = 0
+ties = 0
 
-win_conditions_py = {
-    (1, 3): "Вы проиграли бумаге!",
-    (2, 1): "Вы проиграли камню!",
-    (3, 2): "Вы проиграли ножницам!"
-}
+def results(user_input, random_action):
+    global wins, loses, ties
 
-result = (commands[user_choice], py_num)
+    try:
+        if user_input.lower() == random_action.lower():
+            ties += 1
+            return "Draw!"
 
-print(win_conditions_user.get(result) if win_conditions_user.get(result) else win_conditions_py.get(result))
+        if win_conditions[user_input] == random_action:
+            wins += 1
+            return "You won!"
+        else:
+            loses += 1
+            return "You lost!"
+    except KeyError:
+        return "Invalid input!"
 
-"""
-Алгоритм:
-Компьютер выбирает число, которое равняется выбору.
-Получаем значение юзера и сравниваем с значением компьютера если число юзера бьёт число компьютера,
-то выводим, что он победил,
-если наоборот, то проиграл
-"""
+def main():
+    print("Welcome to the Rock, Paper, Scissor Game!")
+    print("You can leave if you type 'exit'")
+
+    while True:
+        print(f"""Statistics: 
+            Wins: {wins}, Loses: {loses}, Ties: {ties}
+            """)
+
+        random_choice = random.choice(actions)
+
+        user_choice = input(f"Choose your action, available: {', '.join(actions)}: ").lower()
+
+        if user_choice == "exit":
+            break
+
+        print(f"You chose: {user_choice}, computer chose: {random_choice}")
+        print(results(user_choice, random_choice))
+
+if __name__ == "__main__":
+    main()
+
