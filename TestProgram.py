@@ -1,11 +1,12 @@
 import random
+import sys
 
 actions = ["paper", "rock", "scissors"]
 
 win_conditions = {
-        "paper": "rock",
-        "scissor": "paper",
-        "rock": "scissors"
+    "paper": "rock",
+    "scissor": "paper",
+    "rock": "scissors"
 }
 
 wins = 0
@@ -48,6 +49,10 @@ def main():
         print(f"You chose: {user_choice}, computer chose: {random_choice}")
         print(results(user_choice, random_choice))
 
+        # Флаг выхода после одного раунда, если флаг --single
+        # Для бота в Telegram
+        if "--single" in sys.argv:
+            break
+
 if __name__ == "__main__":
     main()
-
